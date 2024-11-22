@@ -10,7 +10,9 @@ Make sure to open Docker desktop
 
 Run the following in terminal:
 docker-compose up
+##
 .\mvnw clean install
+##
 .\mvnw spring-boot:run
 
 The created tables can be seen at localhost:8888 with Adminer tool
