@@ -6,10 +6,12 @@ import com.demos.booksApi.services.AuthorService
 import com.demos.booksApi.toAuthorDto
 import com.demos.booksApi.toAuthorEntity
 import com.demos.booksApi.toAuthorUpdateRequest
+import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
+@Tag(name="Authors")
 @RestController
 @RequestMapping(path = ["/v1/authors"])
 class AuthorsController(private val authorService: AuthorService) {

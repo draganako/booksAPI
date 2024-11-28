@@ -7,6 +7,7 @@ import com.demos.booksApi.services.BookService
 import com.demos.booksApi.toBookSummary
 import com.demos.booksApi.toBookSummaryDto
 import com.demos.booksApi.toBookUpdateRequest
+import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
+@Tag(name="Books")
 @RestController
 @RequestMapping(path = ["/v1/books"])
 class BooksController(val bookService: BookService) {
