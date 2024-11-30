@@ -1,12 +1,10 @@
 package com.demos.booksApi
 
-import com.demos.booksApi.domain.AuthorSummary
-import com.demos.booksApi.domain.AuthorUpdateRequest
-import com.demos.booksApi.domain.BookSummary
-import com.demos.booksApi.domain.BookUpdateRequest
+import com.demos.booksApi.domain.*
 import com.demos.booksApi.domain.dto.*
 import com.demos.booksApi.domain.entities.AuthorEntity
 import com.demos.booksApi.domain.entities.BookEntity
+import com.demos.booksApi.domain.entities.LibraryEntity
 import com.demos.booksApi.exceptions.InvalidAuthorException
 
 fun AuthorEntity.toAuthorDto() = AuthorDto(
@@ -42,26 +40,26 @@ fun AuthorUpdateRequestDto.toAuthorUpdateRequest() = AuthorUpdateRequest(
     image = this.image
 )
 
-fun BookSummary.toBookEntity(author: AuthorEntity) = BookEntity(
-    isbn=this.isbn,
-    title=this.title,
-    description = this.description,
-    image = this.image,
-    authorEntity = author
-)
-
 fun AuthorSummaryDto.toAuthorSummary() = AuthorSummary(
     id = this.id,
     name = this.name,
     image = this.image
 )
 
-fun BookSummaryDto.toBookSummary() = BookSummary(
-    isbn = this.isbn,
-    title = this.title,
+fun BookNoLibsDto.toBookRequest() = BookNoLibs(
+    isbn=this.isbn,
+    title=this.title,
     description = this.description,
     image = this.image,
-    author = this.author.toAuthorSummary()
+    authorSummary = this.authorSummaryDto.toAuthorSummary()
+)
+
+fun BookNoLibs.toBookEntity(author: AuthorEntity) = BookEntity(
+    isbn=this.isbn,
+    title=this.title,
+    description = this.description ?: "",
+    image = this.image ?: "",
+    authorEntity = author
 )
 
 fun BookEntity.toBookSummaryDto() = BookSummaryDto(
@@ -69,11 +67,45 @@ fun BookEntity.toBookSummaryDto() = BookSummaryDto(
     title = this.title,
     description = this.description,
     image = this.image,
-    author = authorEntity.toAuthorSummaryDto()
+    author = authorEntity.toAuthorSummaryDto(),
+    libraries = mutableListOf<LibraryEntity>().apply { addAll(libraries) }
+)
+
+fun BookEntity.toBookRequestDto() = BookNoLibsDto(
+    isbn = this.isbn,
+    title = this.title,
+    description = this.description,
+    image = this.image,
+    authorSummaryDto = authorEntity.toAuthorSummaryDto(),
 )
 
 fun BookUpdateRequestDto.toBookUpdateRequest() = BookUpdateRequest(
     title = this.title,
+    description = this.description,
+    image = this.image
+)
+
+fun LibraryEntity.toLibraryDto() = LibraryDto(
+    id = this.id,
+    name = this.name,
+    location = this.location,
+    description = this.description,
+    image = this.image,
+    books = mutableListOf<BookNoLibsDto>().apply { addAll(books.map { it.toBookRequestDto() }) }
+)
+
+fun LibraryCreateRequestDto.toLibraryEntity() = LibraryEntity(
+    id = this.id,
+    name = this.name,
+    location = this.location,
+    description = this.description,
+    image = this.image
+)
+
+fun LibraryUpdateRequestDto.toLibraryUpdateRequest() = LibraryUpdateRequest(
+    id = this.id,
+    name = this.name,
+    location = this.location,
     description = this.description,
     image = this.image
 )

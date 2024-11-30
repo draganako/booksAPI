@@ -24,7 +24,7 @@ class BookServiceImplTest @Autowired constructor(
     @Test
     fun `test that createUpdate throws IllegalStateException when Author does not exist`() {
         val authorSummary = AuthorSummary(id=999L)
-        val bookSummary = testBookSummaryA(BOOK_A_ISBN, authorSummary)
+        val bookSummary = testBookNoLibsA(BOOK_A_ISBN, authorSummary)
         assertThrows<IllegalStateException> {
             underTest.createUpdate(BOOK_A_ISBN, bookSummary)
         }
@@ -36,7 +36,7 @@ class BookServiceImplTest @Autowired constructor(
         assertThat(savedAuthor).isNotNull()
 
         val authorSummary = AuthorSummary(id=savedAuthor.id!!)
-        val bookSummary = testBookSummaryA(BOOK_A_ISBN, authorSummary)
+        val bookSummary = testBookNoLibsA(BOOK_A_ISBN, authorSummary)
         val (savedBook, isCreated) = underTest.createUpdate(BOOK_A_ISBN, bookSummary)
         assertThat(savedBook).isNotNull()
 
@@ -55,7 +55,7 @@ class BookServiceImplTest @Autowired constructor(
         assertThat(savedBook).isNotNull()
 
         val authorSummary = AuthorSummary(id=savedAuthor.id!!)
-        val bookSummary = testBookSummaryB(BOOK_A_ISBN, authorSummary)
+        val bookSummary = testBookNoLibsB(BOOK_A_ISBN, authorSummary)
         val (updatedBook, isCreated) = underTest.createUpdate(BOOK_A_ISBN, bookSummary)
         assertThat(updatedBook).isNotNull()
 

@@ -1,10 +1,11 @@
 package com.demos.booksApi.controllers
 
+import com.demos.booksApi.domain.BookNoLibsDto
 import com.demos.booksApi.domain.dto.BookSummaryDto
 import com.demos.booksApi.domain.dto.BookUpdateRequestDto
 import com.demos.booksApi.exceptions.InvalidAuthorException
 import com.demos.booksApi.services.BookService
-import com.demos.booksApi.toBookSummary
+import com.demos.booksApi.toBookRequest
 import com.demos.booksApi.toBookSummaryDto
 import com.demos.booksApi.toBookUpdateRequest
 import io.swagger.v3.oas.annotations.tags.Tag
@@ -28,10 +29,10 @@ class BooksController(val bookService: BookService) {
     @PutMapping(path = ["/{isbn}"])
     fun createFullUpdateBook(
         @PathVariable("isbn") isbn: String,
-        @RequestBody book: BookSummaryDto
+        @RequestBody book: BookNoLibsDto
     ): ResponseEntity<BookSummaryDto> {
         try {
-            val (savedBook, isCreated) = bookService.createUpdate(isbn, book.toBookSummary())
+            val (savedBook, isCreated) = bookService.createUpdate(isbn, book.toBookRequest())
             val responseCode = if (isCreated) HttpStatus.CREATED else HttpStatus.OK
             return ResponseEntity(savedBook.toBookSummaryDto(), responseCode)
 

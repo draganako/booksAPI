@@ -1,7 +1,7 @@
 package com.demos.booksApi.services.impl
 
+import com.demos.booksApi.domain.BookNoLibs
 import com.demos.booksApi.toBookEntity
-import com.demos.booksApi.domain.BookSummary
 import com.demos.booksApi.domain.BookUpdateRequest
 import com.demos.booksApi.domain.entities.BookEntity
 import com.demos.booksApi.repositories.AuthorRepository
@@ -18,14 +18,22 @@ class BookServiceImpl(
 ) : BookService {
 
     @Transactional
-    override fun createUpdate(isbn: String, bookSummary: BookSummary): Pair<BookEntity, Boolean> {
-        val normalisedBook = bookSummary.copy(isbn = isbn)
+    override fun createUpdate(isbn: String, bookRequest: BookNoLibs): Pair<BookEntity, Boolean> {
+        val normalisedBook = bookRequest.copy(isbn = isbn)
         val isExists = bookRepository.existsById(isbn)
 
-        val author = authorRepository.findByIdOrNull(normalisedBook.author.id)
+        val author = authorRepository.findByIdOrNull(normalisedBook.authorSummary.id)
         checkNotNull(author)
 
-        val savedBook = bookRepository.save(normalisedBook.toBookEntity(author))
+        val existingBook = bookRepository.findByIdOrNull(isbn)
+        val updatedBook : BookEntity = existingBook?.copy(
+            title = normalisedBook.title,
+            description = normalisedBook.description ?: existingBook.description,
+            image = normalisedBook.image ?: existingBook.image,
+            authorEntity = author
+        ) ?: normalisedBook.toBookEntity(author)
+
+        val savedBook = bookRepository.save(updatedBook)
         return Pair(savedBook, !isExists)
     }
 

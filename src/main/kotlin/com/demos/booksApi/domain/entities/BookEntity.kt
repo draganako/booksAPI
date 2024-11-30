@@ -1,15 +1,12 @@
 package com.demos.booksApi.domain.entities
 
-import jakarta.persistence.CascadeType
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.Id
-import jakarta.persistence.JoinColumn
-import jakarta.persistence.ManyToOne
-import jakarta.persistence.Table
+import com.fasterxml.jackson.annotation.JsonIdentityInfo
+import com.fasterxml.jackson.annotation.ObjectIdGenerators
+import jakarta.persistence.*
 
 @Entity
 @Table(name="books")
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator::class, property = "id")
 data class BookEntity(
     @Id
     @Column(name="isbn")
@@ -26,5 +23,9 @@ data class BookEntity(
 
     @ManyToOne(cascade = [CascadeType.DETACH])
     @JoinColumn(name="author_id")
-    val authorEntity: AuthorEntity
+    val authorEntity: AuthorEntity,
+
+    @ManyToMany(mappedBy = "books")
+    //@JsonBackReference
+    val libraries : List<LibraryEntity> = listOf()
 )

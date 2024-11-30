@@ -1,7 +1,7 @@
 package com.demos.booksApi
 import com.demos.booksApi.domain.AuthorSummary
 import com.demos.booksApi.domain.AuthorUpdateRequest
-import com.demos.booksApi.domain.BookSummary
+import com.demos.booksApi.domain.BookNoLibs
 import com.demos.booksApi.domain.dto.AuthorDto
 import com.demos.booksApi.domain.dto.AuthorSummaryDto
 import com.demos.booksApi.domain.dto.AuthorUpdateRequestDto
@@ -77,19 +77,19 @@ fun testBookSummaryDtoA(isbn: String, author: AuthorSummaryDto) = BookSummaryDto
     author=author
 )
 
-fun testBookSummaryA(isbn: String, author: AuthorSummary) = BookSummary(
+fun testBookNoLibsA(isbn: String, author: AuthorSummary) = BookNoLibs(
     isbn=isbn,
     title = "Test Book A",
     description = "A test book",
     image = "book-image.jpeg",
-    author=author
+    authorSummary = author
 )
 
-fun testBookSummaryB(isbn: String, author: AuthorSummary) = BookSummary(
+fun testBookNoLibsB(isbn: String, author: AuthorSummary) = BookNoLibs(
     isbn=isbn,
     title = "Test Book B",
     description = "Another test book",
     image = "book-image-b.jpeg",
-    author=author
+    authorSummary = author
 )
 

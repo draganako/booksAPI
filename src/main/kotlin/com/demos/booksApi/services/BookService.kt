@@ -1,12 +1,12 @@
 package com.demos.booksApi.services
 
-import com.demos.booksApi.domain.BookSummary
+import com.demos.booksApi.domain.BookNoLibs
 import com.demos.booksApi.domain.BookUpdateRequest
 import com.demos.booksApi.domain.entities.BookEntity
 
 interface BookService {
 
-    fun createUpdate(isbn: String, bookSummary: BookSummary): Pair<BookEntity, Boolean>
+    fun createUpdate(isbn: String, bookRequest: BookNoLibs): Pair<BookEntity, Boolean>
 
     fun list(authorId: Long?=null): List<BookEntity>
 
