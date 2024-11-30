@@ -10,8 +10,8 @@ Make sure to open Docker desktop
 
 Run the following in terminal:\
 docker-compose up\
-.\mvnw clean install\
-.\mvnw spring-boot:run
+mvn clean install\
+mvn spring-boot:run
 
-The created tables can be seen at localhost:8888 with Adminer tool
+The created tables can be seen at localhost:8888 with Adminer tool and filled by choosing SQL command option and then copying testData.txt contents to the command input shown
 Using Postman, write http://localhost:8080/v1/*some_route_from_controller* and supply body as JSON
